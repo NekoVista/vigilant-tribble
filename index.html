@@ -19,17 +19,21 @@
         <span class="logo-icon">◈</span>
         EmuioHost
       </a>
-      <div class="nav-links">
+      <div class="nav-links" id="navLinks">
         <a href="#features">Features</a>
         <a href="#how-it-works">How it works</a>
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
+        <div class="mobile-nav-actions">
+          <button class="btn btn-ghost" onclick="openModal('login'); closeMobileMenu()">Log in</button>
+          <button class="btn btn-primary" onclick="openModal('signup'); closeMobileMenu()">Sign up free</button>
+        </div>
       </div>
       <div class="nav-actions">
         <button class="btn btn-ghost" onclick="openModal('login')">Log in</button>
         <button class="btn btn-primary" onclick="openModal('signup')">Sign up free</button>
       </div>
-      <button class="mobile-menu-btn" aria-label="Menu">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>

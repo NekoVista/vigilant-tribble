@@ -1,56 +1,34 @@
-// ===== Auth (localStorage) =====
-const STORAGE_KEY = 'emuio_users';
-const SESSION_KEY = 'emuio_session';
+// ===== Firebase Config =====
+const firebaseConfig = {
+  apiKey: "AIzaSyDIjF0VPC5iCBiGEHeBlDHUgUv21-eHMoM",
+  authDomain: "emuiohost.firebaseapp.com",
+  projectId: "emuiohost",
+  storageBucket: "emuiohost.firebasestorage.app",
+  messagingSenderId: "1007646868538",
+  appId: "1:1007646868538:web:de65e8bb0791e9e7f2a103",
+  measurementId: "G-JKTE8X02VX"
+};
 
-function getUsers() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-  } catch {
-    return {};
-  }
-}
-
-function saveUsers(users) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-}
-
-function getSession() {
-  try {
-    return JSON.parse(localStorage.getItem(SESSION_KEY));
-  } catch {
-    return null;
-  }
-}
-
-function setSession(email) {
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ email, loggedInAt: Date.now() }));
-}
-
-function clearSession() {
-  localStorage.removeItem(SESSION_KEY);
-}
-
-function isLoggedIn() {
-  return !!getSession();
-}
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
 // ===== UI helpers =====
 function showToast(message, type = 'success') {
   const toast = document.getElementById('toast');
+  if (!toast) return;
   toast.textContent = message;
   toast.className = 'toast show' + (type === 'error' ? ' toast-error' : '');
-  setTimeout(() => toast.classList.remove('show'), 3500);
+  setTimeout(() => toast.classList.remove('show'), 4000);
 }
 
-function updateNavAuth() {
-  const session = getSession();
+function updateNavAuth(user) {
   const navActions = document.querySelector('.nav-actions');
   const mobileActions = document.querySelector('.mobile-nav-actions');
-
   if (!navActions) return;
 
-  if (session) {
-    const email = session.email;
+  if (user) {
+    const email = user.email || 'User';
     const short = email.length > 18 ? email.slice(0, 15) + '…' : email;
 
     navActions.innerHTML = `
@@ -82,80 +60,69 @@ function updateNavAuth() {
 }
 
 // ===== Auth actions =====
+let isSignup = true;
+
 function handleAuth(e) {
   e.preventDefault();
   const email = document.getElementById('email').value.trim().toLowerCase();
   const password = document.getElementById('password').value;
+  const submitBtn = document.getElementById('submitBtn');
 
   if (!email || !password) {
     showToast('Please fill in all fields', 'error');
     return;
   }
-
   if (password.length < 6) {
     showToast('Password must be at least 6 characters', 'error');
     return;
   }
 
-  const users = getUsers();
+  submitBtn.disabled = true;
+  submitBtn.textContent = isSignup ? 'Creating account…' : 'Logging in…';
 
-  if (isSignup) {
-    if (users[email]) {
-      showToast('An account with this email already exists. Try logging in.', 'error');
-      return;
-    }
-    users[email] = {
-      password: password,
-      createdAt: new Date().toISOString()
-    };
-    saveUsers(users);
-    setSession(email);
-    closeModal();
-    updateNavAuth();
-    showToast('Welcome to EmuioHost, ' + email + '!');
-    document.getElementById('authForm').reset();
-  } else {
-    if (!users[email] || users[email].password !== password) {
-      showToast('Invalid email or password', 'error');
-      return;
-    }
-    setSession(email);
-    closeModal();
-    updateNavAuth();
-    showToast('Welcome back, ' + email + '!');
-    document.getElementById('authForm').reset();
-  }
+  const action = isSignup
+    ? auth.createUserWithEmailAndPassword(email, password)
+    : auth.signInWithEmailAndPassword(email, password);
+
+  action
+    .then((userCredential) => {
+      closeModal();
+      document.getElementById('authForm').reset();
+      showToast(isSignup ? 'Account created! Welcome to EmuioHost.' : 'Welcome back!');
+    })
+    .catch((error) => {
+      let msg = error.message;
+      if (error.code === 'auth/email-already-in-use') msg = 'This email is already registered. Try logging in.';
+      if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'Invalid email or password.';
+      if (error.code === 'auth/user-not-found') msg = 'No account found with this email.';
+      if (error.code === 'auth/weak-password') msg = 'Password is too weak.';
+      if (error.code === 'auth/invalid-email') msg = 'Please enter a valid email.';
+      showToast(msg, 'error');
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      updateModalUI();
+    });
 }
 
 function logout() {
-  clearSession();
-  updateNavAuth();
-  showToast('Logged out successfully');
-  if (window.location.pathname.includes('dashboard')) {
-    window.location.href = 'index.html';
-  }
+  auth.signOut()
+    .then(() => {
+      showToast('Logged out successfully');
+      if (window.location.pathname.includes('dashboard')) {
+        window.location.href = 'index.html';
+      }
+    })
+    .catch(() => showToast('Error logging out', 'error'));
 }
 
 function simulateOAuth() {
-  const demoEmail = 'github-user@emuio.app';
-  const users = getUsers();
-  if (!users[demoEmail]) {
-    users[demoEmail] = {
-      password: 'github-oauth-demo',
-      createdAt: new Date().toISOString(),
-      provider: 'github'
-    };
-    saveUsers(users);
-  }
-  setSession(demoEmail);
-  closeModal();
-  updateNavAuth();
-  showToast('Connected with GitHub! Welcome to EmuioHost.');
+  // GitHub OAuth requires extra Firebase setup (provider + authorized domains)
+  // For now show a helpful message
+  showToast('GitHub login needs extra setup in Firebase Console → Authentication → Sign-in method → GitHub', 'error');
 }
 
 // ===== Modal =====
-let isSignup = true;
-
 function openModal(mode) {
   isSignup = mode === 'signup';
   updateModalUI();
@@ -269,7 +236,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Init
-document.addEventListener('DOMContentLoaded', () => {
-  updateNavAuth();
+// ===== Auth state listener =====
+auth.onAuthStateChanged((user) => {
+  updateNavAuth(user);
 });

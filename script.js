@@ -4,6 +4,36 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 20);
 });
 
+// Mobile menu
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const navLinks = document.getElementById('navLinks');
+
+function closeMobileMenu() {
+  mobileMenuBtn.classList.remove('open');
+  navLinks.classList.remove('open');
+  mobileMenuBtn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+mobileMenuBtn.addEventListener('click', () => {
+  const isOpen = navLinks.classList.contains('open');
+  if (isOpen) {
+    closeMobileMenu();
+  } else {
+    mobileMenuBtn.classList.add('open');
+    navLinks.classList.add('open');
+    mobileMenuBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+});
+
+// Close mobile menu when clicking a nav link
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    closeMobileMenu();
+  });
+});
+
 // FAQ accordion
 document.querySelectorAll('.faq-question').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -26,6 +56,7 @@ function openModal(mode) {
   updateModalUI();
   document.getElementById('authModal').classList.add('open');
   document.body.style.overflow = 'hidden';
+  closeMobileMenu();
 }
 
 function closeModal() {
@@ -67,7 +98,10 @@ document.getElementById('authModal').addEventListener('click', (e) => {
 
 // Escape key
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Escape') {
+    closeModal();
+    closeMobileMenu();
+  }
 });
 
 // Form submit (simulated)

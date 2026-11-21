@@ -119,84 +119,105 @@
     .deploy-form input:focus {
       border-color: var(--primary);
     }
+    .loading-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+    }
   </style>
 </head>
 <body>
-  <nav class="navbar scrolled">
-    <div class="container nav-container">
-      <a href="index.html" class="logo">
-        <span class="logo-icon">◈</span>
-        EmuioHost
-      </a>
-      <div class="nav-links" id="navLinks">
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-        <div class="mobile-nav-actions"></div>
-      </div>
-      <div class="nav-actions"></div>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+  <div id="loading" class="loading-screen">Checking authentication…</div>
 
-  <main class="dashboard">
-    <div class="container">
-      <div class="dashboard-header">
-        <div>
-          <h1>Your sites</h1>
-          <p id="welcomeText">Loading...</p>
+  <div id="app" style="display:none;">
+    <nav class="navbar scrolled">
+      <div class="container nav-container">
+        <a href="index.html" class="logo">
+          <span class="logo-icon">◈</span>
+          EmuioHost
+        </a>
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+          <div class="mobile-nav-actions"></div>
         </div>
-        <button class="btn btn-primary" onclick="document.getElementById('repoInput').focus()">
-          + New site
+        <div class="nav-actions"></div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
         </button>
       </div>
+    </nav>
 
-      <div class="deploy-form">
-        <h2>Deploy a new site</h2>
-        <form id="deployForm" onsubmit="addSite(event)">
-          <div class="form-row">
-            <input type="text" id="siteName" placeholder="Site name (e.g. my-portfolio)" required>
-            <input type="url" id="repoInput" placeholder="GitHub repo URL (optional)" >
-            <button type="submit" class="btn btn-primary">Deploy</button>
+    <main class="dashboard">
+      <div class="container">
+        <div class="dashboard-header">
+          <div>
+            <h1>Your sites</h1>
+            <p id="welcomeText">Loading...</p>
           </div>
-        </form>
-      </div>
-
-      <div id="sitesContainer">
-        <div class="empty-state" id="emptyState">
-          <h2>No sites yet</h2>
-          <p>Deploy your first site above. It only takes a few seconds.</p>
+          <button class="btn btn-primary" onclick="document.getElementById('siteName').focus()">
+            + New site
+          </button>
         </div>
-        <div class="sites-grid" id="sitesGrid" style="display:none;"></div>
+
+        <div class="deploy-form">
+          <h2>Deploy a new site</h2>
+          <form id="deployForm" onsubmit="addSite(event)">
+            <div class="form-row">
+              <input type="text" id="siteName" placeholder="Site name (e.g. my-portfolio)" required>
+              <input type="url" id="repoInput" placeholder="GitHub repo URL (optional)">
+              <button type="submit" class="btn btn-primary">Deploy</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="sitesContainer">
+          <div class="empty-state" id="emptyState">
+            <h2>No sites yet</h2>
+            <p>Deploy your first site above. It only takes a few seconds.</p>
+          </div>
+          <div class="sites-grid" id="sitesGrid" style="display:none;"></div>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <div class="toast" id="toast"></div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
   <script src="script.js"></script>
   <script>
-    // Protect dashboard
-    if (!isLoggedIn()) {
-      window.location.href = 'index.html';
+    let currentUser = null;
+
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = 'index.html';
+        return;
+      }
+      currentUser = user;
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('welcomeText').textContent = 'Signed in as ' + user.email;
+      renderSites();
+    });
+
+    function getSitesKey() {
+      return 'emuio_sites_' + (currentUser ? currentUser.uid : 'anon');
     }
-
-    const session = getSession();
-    document.getElementById('welcomeText').textContent = 'Signed in as ' + session.email;
-
-    const SITES_KEY = 'emuio_sites_' + session.email;
 
     function getSites() {
       try {
-        return JSON.parse(localStorage.getItem(SITES_KEY)) || [];
+        return JSON.parse(localStorage.getItem(getSitesKey())) || [];
       } catch {
         return [];
       }
     }
 
     function saveSites(sites) {
-      localStorage.setItem(SITES_KEY, JSON.stringify(sites));
+      localStorage.setItem(getSitesKey(), JSON.stringify(sites));
     }
 
     function renderSites() {
@@ -250,8 +271,6 @@
       renderSites();
       showToast('Site deployed! ' + slug + '.emuio.app is live.');
     }
-
-    renderSites();
   </script>
 </body>
 </html>

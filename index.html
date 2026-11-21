@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmuioHost — Free Forever Web Hosting. No Credits. No Limits.</title>
+  <meta name="description" content="EmuioHost is a completely free web hosting platform. Deploy from Git in seconds. Unlimited bandwidth, builds, and projects. No credits, no subscriptions, no credit card.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <span class="logo-icon">◈</span>
+        EmuioHost
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-ghost" onclick="openModal('login')">Log in</button>
+        <button class="btn btn-primary" onclick="openModal('signup')">Sign up free</button>
+      </div>
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container hero-content">
+      <div class="badge">100% Free • Forever</div>
+      <h1>Deploy your sites.<br><span class="gradient-text">No credits. No limits.</span></h1>
+      <p class="hero-subtitle">
+        EmuioHost is the free web hosting platform built for developers who just want to ship.
+        Connect your Git repo and go live in seconds — completely free, with zero usage caps.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg" onclick="openModal('signup')">
+          Start deploying free
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <a href="#how-it-works" class="btn btn-secondary btn-lg">See how it works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <strong>Unlimited</strong>
+          <span>Bandwidth</span>
+        </div>
+        <div class="stat">
+          <strong>Unlimited</strong>
+          <span>Build minutes</span>
+        </div>
+        <div class="stat">
+          <strong>Unlimited</strong>
+          <span>Projects</span>
+        </div>
+        <div class="stat">
+          <strong>$0</strong>
+          <span>Forever</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="terminal">
+        <div class="terminal-header">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="terminal-title">emuio deploy</span>
+        </div>
+        <div class="terminal-body">
+          <p><span class="prompt">$</span> git push origin main</p>
+          <p class="success">✓ Build started...</p>
+          <p class="success">✓ Deployed to production</p>
+          <p class="url">→ https://my-site.emuio.app</p>
+          <p class="muted">Live in 8.2s • No credits used</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Everything you need. Nothing you pay for.</h2>
+        <p>All the power of modern web hosting — without the credit system or monthly bills.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Instant Git Deploys</h3>
+          <p>Connect GitHub, GitLab, or Bitbucket. Every push automatically builds and deploys your site.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌍</div>
+          <h3>Global CDN</h3>
+          <p>Lightning-fast delivery from edge locations worldwide. Your visitors get the best performance possible.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Free SSL & Domains</h3>
+          <p>Automatic HTTPS on every site. Bring your own domain or use a free .emuio.app subdomain.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚙️</div>
+          <h3>Serverless Functions</h3>
+          <p>Run backend logic with zero servers to manage. Perfect for APIs, forms, and dynamic features.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <h3>Deploy Previews</h3>
+          <p>Every pull request gets its own unique preview URL. Review changes before they go live.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>Unlimited Projects</h3>
+          <p>Host as many sites as you want. Portfolios, side projects, client work — all under one free account.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📝</div>
+          <h3>Forms & Storage</h3>
+          <p>Handle form submissions and store files without writing backend code or paying extra.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">↩️</div>
+          <h3>Instant Rollbacks</h3>
+          <p>Something broke? Roll back to any previous deploy with one click. Zero downtime.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <h2>From zero to live in under a minute</h2>
+        <p>No credit card. No configuration headaches. Just ship.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Create an account</h3>
+          <p>Sign up with email or GitHub. Takes 10 seconds. No payment info ever asked.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Connect your repo</h3>
+          <p>Link any Git repository. We auto-detect frameworks like Next.js, Astro, Hugo, and more.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Push & go live</h3>
+          <p>Every commit deploys automatically. Your site is live on a global CDN instantly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="comparison">
+    <div class="container">
+      <div class="section-header">
+        <h2>Why developers switch to EmuioHost</h2>
+        <p>Other platforms make you watch a credit meter. We don't.</p>
+      </div>
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th class="highlight">EmuioHost</th>
+              <th>Typical Free Tier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Price</td>
+              <td class="highlight"><strong>Free forever</strong></td>
+              <td>Free (with limits)</td>
+            </tr>
+            <tr>
+              <td>Credits / Usage caps</td>
+              <td class="highlight"><strong>None</strong></td>
+              <td>300 credits / month</td>
+            </tr>
+            <tr>
+              <td>Sites pause when over limit</td>
+              <td class="highlight"><strong>Never</strong></td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td>Bandwidth</td>
+              <td class="highlight"><strong>Unlimited</strong></td>
+              <td>~100 GB</td>
+            </tr>
+            <tr>
+              <td>Build minutes</td>
+              <td class="highlight"><strong>Unlimited</strong></td>
+              <td>~300 min</td>
+            </tr>
+            <tr>
+              <td>Projects</td>
+              <td class="highlight"><strong>Unlimited</strong></td>
+              <td>Limited</td>
+            </tr>
+            <tr>
+              <td>Credit card required</td>
+              <td class="highlight"><strong>Never</strong></td>
+              <td>Often for upgrades</td>
+            </tr>
+            <tr>
+              <td>Subscriptions</td>
+              <td class="highlight"><strong>None</strong></td>
+              <td>Paid plans exist</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2>Simple pricing</h2>
+        <p>There's only one plan. It's free.</p>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-badge">Forever Free</div>
+        <div class="price">
+          <span class="currency">$</span>
+          <span class="amount">0</span>
+          <span class="period">/ forever</span>
+        </div>
+        <ul class="pricing-features">
+          <li>✓ Unlimited websites & projects</li>
+          <li>✓ Unlimited bandwidth</li>
+          <li>✓ Unlimited build minutes</li>
+          <li>✓ Unlimited serverless functions</li>
+          <li>✓ Free custom domains + SSL</li>
+          <li>✓ Deploy previews for every PR</li>
+          <li>✓ Instant rollbacks</li>
+          <li>✓ Global CDN</li>
+          <li>✓ Forms & storage</li>
+          <li>✓ No credit card required</li>
+          <li>✓ No subscriptions ever</li>
+        </ul>
+        <button class="btn btn-primary btn-lg full-width" onclick="openModal('signup')">
+          Create free account
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq">
+    <div class="container">
+      <div class="section-header">
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            Is EmuioHost really free forever?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. There are no paid plans, no credit systems, and no usage limits. We believe developers should be able to host projects without worrying about meters running out.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Will my sites ever get paused?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>No. Unlike platforms that pause sites when free credits run out, EmuioHost never pauses your projects for usage reasons.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Do I need a credit card?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Never. You can sign up and deploy with just an email address or GitHub account.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            What frameworks are supported?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Next.js, Nuxt, Astro, SvelteKit, Hugo, Jekyll, Gatsby, plain HTML/CSS/JS, and most static site generators or frontend frameworks. If it builds to static files or uses Node, we support it.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Can I use a custom domain?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Absolutely. Point your domain to EmuioHost and we'll automatically provision free SSL certificates.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            How is this free possible?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>EmuioHost is built to be sustainable through efficiency and community. We focus on the essentials developers actually need rather than complex enterprise features that drive up costs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="final-cta">
+    <div class="container">
+      <h2>Ready to deploy without limits?</h2>
+      <p>Join thousands of developers who switched to truly free hosting.</p>
+      <button class="btn btn-primary btn-lg" onclick="openModal('signup')">
+        Get started — it's free
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-icon">◈</span>
+          EmuioHost
+        </a>
+        <p>Free forever web hosting.<br>No credits. No subscriptions.</p>
+      </div>
+      <div class="footer-links">
+        <div>
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#how-it-works">How it works</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="#">Docs</a>
+          <a href="#">Blog</a>
+          <a href="#">Status</a>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 EmuioHost. Built for developers who just want to ship.</p>
+    </div>
+  </footer>
+
+  <!-- Auth Modal -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="modal-content">
+        <h2 id="modalTitle">Create your free account</h2>
+        <p class="modal-subtitle" id="modalSubtitle">No credit card. No subscriptions. Ever.</p>
+        
+        <form id="authForm" onsubmit="handleAuth(event)">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••" required minlength="6">
+          </div>
+          <button type="submit" class="btn btn-primary full-width" id="submitBtn">
+            Sign up free
+          </button>
+        </form>
+        
+        <div class="divider"><span>or</span></div>
+        
+        <button class="btn btn-secondary full-width" onclick="simulateOAuth()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          Continue with GitHub
+        </button>
+        
+        <p class="modal-switch">
+          <span id="switchText">Already have an account?</span>
+          <button type="button" class="link-btn" id="switchBtn" onclick="toggleAuthMode()">Log in</button>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
